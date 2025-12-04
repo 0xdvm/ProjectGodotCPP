@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://bx7k6wka5el6q"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xowi"]
+albedo_color = Color(0.2784314, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a202f"]
+material = SubResource("StandardMaterial3D_4xowi")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_noarx"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a0tk4"]
+
+[sub_resource type="Sky" id="Sky_r3fl7"]
+sky_material = SubResource("ProceduralSkyMaterial_a0tk4")
+
+[sub_resource type="Environment" id="Environment_jka67"]
+background_mode = 2
+sky = SubResource("Sky_r3fl7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a202f"]
+albedo_color = Color(0.06581387, 0.35122332, 0.35391128, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_noarx"]
+material = SubResource("StandardMaterial3D_a202f")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a0tk4"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Place" type="MeshInstance3D" parent="."]
+transform = Transform3D(39.531796, 0, 0, 0, 1, 0, 0, 0, 41.9147, 0, 0, 0)
+mesh = SubResource("PlaneMesh_a202f")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Place"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Place/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_noarx")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jka67")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.248842, 0.96854407, 0, -0.96854407, 0.248842, 0, 42.521862, 32.329823)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Character" type="Character" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="player" type="MeshInstance3D" parent="Character"]
+mesh = SubResource("CapsuleMesh_noarx")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character"]
+shape = SubResource("CapsuleShape3D_a0tk4")
+
+[node name="Camera3D" type="Camera3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 0.9938513, 0.110723086, 0, -0.110723086, 0.9938513, 0, 4.0665283, 6.7389946)
