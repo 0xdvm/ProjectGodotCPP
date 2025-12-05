@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bx7k6wka5el6q"]
+[gd_scene load_steps=13 format=3 uid="uid://bx7k6wka5el6q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xowi"]
 albedo_color = Color(0.2784314, 0, 0, 1)
@@ -26,10 +26,16 @@ material = SubResource("StandardMaterial3D_a202f")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a0tk4"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_rxg2q"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_rxg2q"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_glv2v"]
+
 [node name="Main" type="Node3D"]
 
 [node name="Place" type="MeshInstance3D" parent="."]
-transform = Transform3D(39.531796, 0, 0, 0, 1, 0, 0, 0, 41.9147, 0, 0, 0)
+transform = Transform3D(39.531796, 0, 0, 0, 1, 0, 0, 0, 41.9147, -0.01192677, 0.003294468, -0.0056886673)
 mesh = SubResource("PlaneMesh_a202f")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Place"]
@@ -41,19 +47,65 @@ shape = SubResource("ConcavePolygonShape3D_noarx")
 environment = SubResource("Environment_jka67")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.248842, 0.96854407, 0, -0.96854407, 0.248842, 0, 42.521862, 32.329823)
+transform = Transform3D(1, 0, 0, 0, 0.5936858, 0.80469704, 0, -0.80469704, 0.5936858, 0, 42.521862, 32.329823)
 light_energy = 3.0
 shadow_enabled = true
 
 [node name="Character" type="Character" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+speed = 5.0
+jump_speed = 5.0
+fall_speed = 2.0
+transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
+script = null
+metadata/_edit_group_ = true
 
 [node name="player" type="MeshInstance3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_noarx")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_a0tk4")
 
-[node name="Camera3D" type="Camera3D" parent="Character"]
-transform = Transform3D(1, 0, 0, 0, 0.9938513, 0.110723086, 0, -0.110723086, 0.9938513, 0, 4.0665283, 6.7389946)
+[node name="CameraPivot" type="CameraPivot" parent="Character"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9292809, -0.36937374, 0, 0.36937374, 0.9292809, 0, 1.2257878, 0)
+script = null
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Character/CameraPivot"]
+transform = Transform3D(-1, 0, -8.742278e-08, -1.7763568e-15, 1.0000001, 0, 8.7422784e-08, 0, -1.0000001, 0, 0, 0)
+shape = SubResource("SphereShape3D_rxg2q")
+spring_length = 5.0
+
+[node name="Camera" type="Camera3D" parent="Character/CameraPivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1920929e-07, 5.336506)
+fov = 60.0
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.91254234, 4.1431823, 8.422245)
+metadata/_edit_group_ = true
+
+[node name="Ball" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("SphereMesh_rxg2q")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_glv2v")

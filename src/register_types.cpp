@@ -7,6 +7,7 @@
 
 #include "example_class.h"
 #include "Character.hpp"
+#include "CameraPivot.hpp"
 
 
 using namespace godot;
@@ -18,6 +19,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	}
 	GDREGISTER_CLASS(ExampleClass);
 	GDREGISTER_CLASS(Character);
+	GDREGISTER_CLASS(CameraPivot);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
