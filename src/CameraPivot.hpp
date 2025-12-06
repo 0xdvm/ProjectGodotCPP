@@ -20,6 +20,7 @@ class CameraPivot: public Node3D
         CameraPivot();
         ~CameraPivot() = default;
         
+        void _ready();
         void _input(const Ref<InputEvent> &event) override;
         void _process(double delta) override;
 

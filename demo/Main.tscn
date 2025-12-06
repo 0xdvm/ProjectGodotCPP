@@ -1,4 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bx7k6wka5el6q"]
+[gd_scene load_steps=14 format=3 uid="uid://bx7k6wka5el6q"]
+
+[ext_resource type="PackedScene" uid="uid://16iu10wxub40" path="res://sophia_skin/model/sophia.glb" id="1_glv2v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4xowi"]
 albedo_color = Color(0.2784314, 0, 0, 1)
@@ -92,3 +94,6 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("SphereShape3D_glv2v")
+
+[node name="sophia" parent="." instance=ExtResource("1_glv2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16920543, 0.0069139004, 7.1214247)

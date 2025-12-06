@@ -1,6 +1,6 @@
 #include "CameraPivot.hpp"
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
-
+#include <godot_cpp/classes/input.hpp>
 CameraPivot::CameraPivot():speed_mouse(0.3f)
 {}
 
@@ -28,6 +28,10 @@ void CameraPivot::_bind_methods()
     );
 }
 
+void CameraPivot::_ready()
+{
+    Input::get_singleton()->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
+}
 void CameraPivot::_process(double delta)
 {
     Vector3 rotation = this->get_rotation_degrees();

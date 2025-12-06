@@ -24,6 +24,7 @@ class Character : public CharacterBody3D
         Character();
         ~Character() override = default;
 
+        
         void _physics_process(double delta) override;
         void _input(const Ref<InputEvent> &event) override;
         void set_speed(float value);
@@ -31,7 +32,7 @@ class Character : public CharacterBody3D
         void set_fall_speed(float value);
         void set_camera(CameraPivot *camera);
         void jump();
-        
+
         float get_speed();
         float get_jump_speed();
         float get_fall_speed();
