@@ -8,6 +8,9 @@
 
 Character::Character():
     _camera(nullptr),
+    player(nullptr),
+    _animator(nullptr),
+    is_move(false),
     speed(10), 
     gravity(9.8), 
     jump_speed(2.0), 
@@ -54,7 +57,6 @@ void Character::_bind_methods()
         "set_camera",
         "get_camera"
     );
-
 }
 
 
@@ -95,7 +97,11 @@ float Character::get_fall_speed()
 {
     return (this->fall_speed);
 }
-
+void Character::_ready()
+{
+    this->player = get_node<Node3D>("sophia");
+    this->_animator =this->get_node<AnimationPlayer>("sophia/AnimationPlayer");
+}
 void Character::_physics_process(double delta)
 {
     if (Engine::get_singleton()->is_editor_hint()) return;
@@ -113,51 +119,48 @@ void Character::_physics_process(double delta)
     forward = forward.normalized();
     right = right.normalized();
 
-    if (input->is_action_pressed("move_forward"))
-    {
-        movement -= forward;
-    }
-    if (input->is_action_pressed("move_backward"))
-    {
-        movement += forward;
-    }
-    if (input->is_action_pressed("move_left"))
-    {
-        movement += right;
-    }
-    if (input->is_action_pressed("move_right"))
-    {
-        movement -= right;
-    }
+    if (input->is_action_pressed("move_forward"))           movement -= forward;
+    else if (input->is_action_pressed("move_backward"))     movement += forward;
+    if (input->is_action_pressed("move_left"))              movement += right;
+    else if (input->is_action_pressed("move_right"))        movement -= right;
 
-    if (movement.length() > 0.1f) {
-        movement = movement.normalized() * speed;
-    }
-    // movement = movement.normalized() * speed;
+    
+    if (movement.length() > 0.1f) movement = movement.normalized() * speed;
     
     Vector3 vel = this->get_velocity();
     vel.x = movement.x;
     vel.z = movement.z;
 
-    if (!this->is_on_floor())
+    if (!this->is_on_floor()) 
     {
+        if (vel.y > 0.0f) _animator->play("Jump"); 
+        else _animator->play("Fall");
+
         vel.y -= gravity * fall_speed * delta;
-        print_line(vformat("Nao esta no chao"));
     }
+
     this->set_velocity(vel);
-    
     this->move_and_slide();
-    print_line(vformat("HELLO C++ CHARACTER"));
+
+    if (movement.length_squared() > 0.001f) 
+    {
+        Vector3 rot         = player->get_rotation_degrees();
+        float   target_y    = Math::rad_to_deg(std::atan2(movement.x, movement.z));
+        rot.y = target_y;
+        player->set_rotation_degrees(rot);
+        this->is_move = true;
+    }
+    else this->is_move = false;
+    
+    if (is_move && this->is_on_floor()) _animator->play("Run");
+    else if (!is_move && this->is_on_floor()) _animator->play("Idle");
 }
 void Character::jump()
 {
-
     if (this->is_on_floor())
     {
-
-        Vector3 start_jump = Vector3(0,0,0);
-        
-        start_jump.y += jump_speed;
+        Vector3 start_jump  = Vector3(0,0,0);
+        start_jump.y        = jump_speed;
         
         this->set_velocity(start_jump);
         this->move_and_slide();
@@ -166,5 +169,5 @@ void Character::jump()
 void Character::_input(const Ref<InputEvent> &event)
 {
     if (event->is_action_pressed("jump")) 
-        this->jump();
+        this->jump(); 
 }

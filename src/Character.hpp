@@ -3,7 +3,7 @@
 #include <godot_cpp/classes/character_body3d.hpp>
 #include <godot_cpp/classes/input_event.hpp>
 #include "CameraPivot.hpp"
-
+#include <godot_cpp/classes/animation_player.hpp>
 using namespace godot;
 
 class Character : public CharacterBody3D
@@ -15,6 +15,10 @@ class Character : public CharacterBody3D
 
     private:
         CameraPivot *_camera;
+        Node3D* player;
+        AnimationPlayer *_animator;
+
+        bool is_move;
 
         float speed;
         float gravity;
@@ -24,7 +28,7 @@ class Character : public CharacterBody3D
         Character();
         ~Character() override = default;
 
-        
+        void _ready() override;
         void _physics_process(double delta) override;
         void _input(const Ref<InputEvent> &event) override;
         void set_speed(float value);
