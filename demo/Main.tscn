@@ -51,21 +51,12 @@ transform = Transform3D(1, 0, 0, 0, 0.5936858, 0.80469704, 0, -0.80469704, 0.593
 light_energy = 3.0
 shadow_enabled = true
 
-[node name="Character" type="Character" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
+[node name="Character" type="Character" parent="." node_paths=PackedStringArray("Camera")]
 speed = 5.0
-jump_speed = 5.0
+jump_speed = 10.0
 fall_speed = 2.0
+Camera = NodePath("CameraPivot")
 transform = Transform3D(1, 0, -1.7484555e-07, 0, 1, 0, 1.7484555e-07, 0, 1, 0, 0, 0)
-script = null
 metadata/_edit_group_ = true
 
 [node name="player" type="MeshInstance3D" parent="Character"]
@@ -78,17 +69,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_a0tk4")
 
 [node name="CameraPivot" type="CameraPivot" parent="Character"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
+mouse_speed = 0.1
 transform = Transform3D(0.99999994, 0, 0, 0, 0.9292809, -0.36937374, 0, 0.36937374, 0.9292809, 0, 1.2257878, 0)
-script = null
+metadata/_edit_group_ = true
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Character/CameraPivot"]
 transform = Transform3D(-1, 0, -8.742278e-08, -1.7763568e-15, 1.0000001, 0, 8.7422784e-08, 0, -1.0000001, 0, 0, 0)

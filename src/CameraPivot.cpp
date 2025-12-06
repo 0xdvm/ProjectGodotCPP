@@ -1,23 +1,23 @@
 #include "CameraPivot.hpp"
 #include <godot_cpp/classes/input_event_mouse_motion.hpp>
 
-CameraPivot::CameraPivot(): _target(nullptr), speed_mouse(0.3f)
+CameraPivot::CameraPivot():speed_mouse(0.3f)
 {}
 
 void CameraPivot::_bind_methods()
 {
-    ClassDB::bind_method(D_METHOD("set_target", "target"), &CameraPivot::set_target);
-    ClassDB::bind_method(D_METHOD("get_target"), &CameraPivot::get_target);
+    // ClassDB::bind_method(D_METHOD("set_target", "target"), &CameraPivot::set_target);
+    // ClassDB::bind_method(D_METHOD("get_target"), &CameraPivot::get_target);
     ClassDB::bind_method(D_METHOD("set_speed_mouse", "value"), &CameraPivot::set_speed_mouse);
     ClassDB::bind_method(D_METHOD("get_speed_mouse"), &CameraPivot::get_speed_mouse);
 
     ClassDB::add_property_group("CameraPivot", "Camera", "");
-    ClassDB::add_property(
-        "CameraPivot",
-        PropertyInfo(Variant::OBJECT, "target", PROPERTY_HINT_NODE_TYPE, "CharacterBody3D"), 
-        "set_target",
-        "get_target"
-    );
+    // ClassDB::add_property(
+    //     "CameraPivot",
+    //     PropertyInfo(Variant::OBJECT, "target", PROPERTY_HINT_NODE_TYPE, "CharacterBody3D"), 
+    //     "set_target",
+    //     "get_target"
+    // );
 
     ClassDB::add_property_group("CameraPivot", "Camera", "");
     ClassDB::add_property(
@@ -34,8 +34,8 @@ void CameraPivot::_process(double delta)
 
     rotation.y -= this->relative.x * this->speed_mouse;
 
-    rotation.x -= this->relative.y * this->speed_mouse;
-    rotation.x = Math::clamp(rotation.x, -90.0f, 90.0f);
+    rotation.x += this->relative.y * this->speed_mouse;
+    rotation.x = Math::clamp(rotation.x, -11.3f, 90.0f);
 
     this->set_rotation_degrees(rotation);
     this->relative = Vector2(0,0);
@@ -49,20 +49,20 @@ void CameraPivot::_input(const Ref<InputEvent> &event)
     }
 }
 
-void CameraPivot::set_target(CharacterBody3D *target)
-{
-    this->_target = target;
-}
+// void CameraPivot::set_target(CharacterBody3D *target)
+// {
+//     this->_target = target;
+// }
 
 void CameraPivot::set_speed_mouse(float speed)
 {
     this->speed_mouse = speed;
 }
 
-CharacterBody3D* CameraPivot::get_target() const
-{
-    return (this->_target);
-}
+// CharacterBody3D* CameraPivot::get_target() const
+// {
+//     return (this->_target);
+// }
 
 float CameraPivot::get_speed_mouse()
 {
